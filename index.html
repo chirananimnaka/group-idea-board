@@ -38,7 +38,7 @@
       color: var(--text);
     }
 
-    /* ── HEADER ── */
+    /* ── HEADER & NAV ── */
     header {
       background: var(--text);
       color: #fff;
@@ -54,17 +54,14 @@
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 1.3rem;
-      letter-spacing: -0.5px;
     }
     .logo-icon {
       width: 34px; height: 34px;
       background: var(--accent);
       border-radius: 8px;
       display: grid; place-items: center;
-      font-size: 1.1rem;
     }
 
-    /* ── NAVIGATION ── */
     .nav-bar {
       background: var(--card);
       border-bottom: 1px solid var(--border);
@@ -73,1183 +70,235 @@
       justify-content: space-between;
       align-items: center;
     }
-    .nav-tabs {
-      display: flex;
-      gap: 0;
-    }
-    .nav-controls {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    /* Dark Mode Toggle */
-    .dark-toggle {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      padding: 8px 12px;
-      border-radius: 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      transition: all 0.3s ease;
-    }
-    .dark-toggle:hover {
-      background: var(--border);
-    }
-    .dark-toggle-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text);
-      user-select: none;
-    }
-    .toggle-switch {
-      width: 40px;
-      height: 22px;
-      background: var(--muted);
-      border-radius: 11px;
-      position: relative;
-      transition: background 0.3s ease;
-      border: none;
-      cursor: pointer;
-      padding: 2px;
-    }
-    .toggle-switch.active {
-      background: var(--accent);
-    }
-    .toggle-dot {
-      width: 18px;
-      height: 18px;
-      background: #fff;
-      border-radius: 50%;
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      transition: left 0.3s ease;
-    }
-    .toggle-switch.active .toggle-dot {
-      left: 20px;
-    }
+    .nav-tabs { display: flex; }
     .nav-tab {
       padding: 16px 24px;
       background: transparent;
       border: none;
       font-family: 'Syne', sans-serif;
       font-weight: 600;
-      font-size: 0.95rem;
       color: var(--muted);
       cursor: pointer;
-      transition: all 0.2s;
       border-bottom: 3px solid transparent;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      transition: 0.2s;
     }
-    .nav-tab:hover { color: var(--text); }
-    .nav-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
+    .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-    /* ── MAIN ── */
+    /* ── DARK MODE TOGGLE ── */
+    .dark-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .toggle-switch {
+      width: 40px; height: 22px; background: var(--muted);
+      border-radius: 11px; position: relative; border: none; cursor: pointer;
+    }
+    .toggle-switch.active { background: var(--accent); }
+    .toggle-dot {
+      width: 18px; height: 18px; background: #fff; border-radius: 50%;
+      position: absolute; top: 2px; left: 2px; transition: 0.3s;
+    }
+    .toggle-switch.active .toggle-dot { left: 20px; }
+
+    /* ── MAIN LAYOUT ── */
     main {
-      flex: 1;
-      display: flex;
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 40px 24px;
-      gap: 32px;
+      flex: 1; display: flex; max-width: 1200px; width: 100%;
+      margin: 0 auto; padding: 40px 24px; gap: 32px;
     }
-
-    .main-content {
-      flex: 1;
-      min-width: 0;
-    }
-
+    .main-content { flex: 1; min-width: 0; }
     .sidebar {
-      width: 300px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      height: fit-content;
+      width: 300px; background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px; height: fit-content;
     }
 
-    /* ── TAB CONTENT ── */
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
+    .tab-content { display: none; animation: fadeIn 0.3s ease; }
     .tab-content.active { display: block; }
 
-    /* ── IDEA PAD ── */
-    .idea-input-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      margin-bottom: 32px;
+    /* ── CARDS & INPUTS ── */
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 32px;
     }
-    .idea-input-card h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 18px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .card h2 { font-family: 'Syne', sans-serif; font-size: 1rem; margin-bottom: 18px; color: var(--muted); text-transform: uppercase; }
+    
+    .input-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    input, select {
+      padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px;
+      background: var(--surface); color: var(--text); outline: none; flex: 1;
     }
-    .idea-input-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .idea-input-row input {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      padding: 12px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      background: var(--surface);
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      flex: 1;
-      min-width: 200px;
-    }
-    .idea-input-row input:focus {
-      border-color: var(--accent2);
-      box-shadow: 0 0 0 3px rgba(45,107,228,0.12);
-    }
-    .idea-input-row button {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      letter-spacing: 0.3px;
-      padding: 12px 24px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      white-space: nowrap;
-    }
-    .idea-input-row button:hover { background: #cf4d1a; }
-    .idea-input-row button:active { transform: scale(0.97); }
-
-    .ideas-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .idea-item {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      animation: fadeIn 0.3s ease;
-      transition: box-shadow 0.2s;
-    }
-    .idea-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
-    .idea-number {
-      width: 28px; height: 28px;
-      min-width: 28px;
-      background: var(--bg);
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      display: grid; place-items: center;
-      font-family: 'Syne', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--muted);
-    }
-    .idea-content { flex: 1; }
-    .idea-text {
-      font-size: 0.95rem;
-      font-weight: 500;
-      line-height: 1.4;
-    }
-    .idea-meta {
-      margin-top: 4px;
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-    .delete-btn {
-      background: none;
-      border: none;
-      color: var(--border);
-      cursor: pointer;
-      font-size: 1.1rem;
-      padding: 2px 6px;
-      border-radius: 6px;
-      transition: color 0.2s, background 0.2s;
-      line-height: 1;
-    }
-    .delete-btn:hover { color: var(--accent); background: #fff0ec; }
-
-    /* ── GPA CALCULATOR ── */
-    .gpa-input-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      margin-bottom: 32px;
-    }
-    .gpa-input-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .gpa-input-row input, .gpa-input-row select {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      padding: 12px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      background: var(--surface);
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .gpa-input-row input:focus, .gpa-input-row select:focus {
-      border-color: var(--accent2);
-      box-shadow: 0 0 0 3px rgba(45,107,228,0.12);
-    }
-    .gpa-input-row input { flex: 1; min-width: 150px; }
-    .gpa-input-row select { min-width: 120px; cursor: pointer; }
-    .gpa-input-row button {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      letter-spacing: 0.3px;
-      padding: 12px 24px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-    }
-    .gpa-input-row button:hover { background: #cf4d1a; }
-    .gpa-input-row button:active { transform: scale(0.97); }
-
-    .gpa-summary {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-    .gpa-summary h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .gpa-value {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--accent);
-      font-family: 'Syne', sans-serif;
+    button {
+      font-family: 'Syne', sans-serif; font-weight: 700; padding: 12px 24px;
+      background: var(--accent); color: #fff; border: none; border-radius: 10px; cursor: pointer;
     }
 
-    .courses-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .course-item {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .course-info {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-    .course-name { font-weight: 600; }
-    .course-grade { color: var(--accent2); font-weight: 700; }
-    .course-credits { color: var(--muted); font-size: 0.9rem; }
+    /* ── STATS BAR ── */
+    .stats-bar { display: flex; gap: 15px; margin-bottom: 20px; }
+    .stat-chip { background: var(--surface); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; border: 1px solid var(--border); }
 
-    /* ── STUDY TIMER ── */
-    .timer-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      text-align: center;
-      margin-bottom: 32px;
+    /* ── LISTS ── */
+    .item-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .list-item {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px; display: flex; align-items: center; justify-content: space-between;
     }
-    .timer-display {
-      font-family: 'Syne', sans-serif;
-      font-size: 4rem;
-      font-weight: 800;
-      color: var(--accent);
-      margin: 24px 0;
-      letter-spacing: 2px;
-    }
-    .timer-controls {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-    .timer-btn {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.9rem;
-      letter-spacing: 0.3px;
-      padding: 12px 20px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-    }
-    .timer-btn:hover { background: #cf4d1a; }
-    .timer-btn:active { transform: scale(0.97); }
-    .timer-btn.secondary { background: var(--accent2); }
-    .timer-btn.secondary:hover { background: #1e4bb8; }
-    .timer-btn:disabled { background: var(--muted); cursor: not-allowed; }
+    .delete-btn { background: none; color: var(--muted); cursor: pointer; border: none; font-size: 1.2rem; }
+    .delete-btn:hover { color: var(--accent); }
 
-    .timer-input-row {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .timer-input-row input {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      padding: 12px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      background: var(--surface);
-      color: var(--text);
-      outline: none;
-      width: 80px;
-      text-align: center;
-    }
-    .timer-input-row input:focus {
-      border-color: var(--accent2);
-      box-shadow: 0 0 0 3px rgba(45,107,228,0.12);
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
 
-    .sessions-list {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
+    #toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: #333; color: white; padding: 12px 24px; border-radius: 30px;
+      opacity: 0; transition: 0.3s; pointer-events: none; z-index: 1000;
     }
-    .sessions-list h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .session-item {
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .session-item:last-child { border-bottom: none; }
-    .session-time { font-weight: 600; }
-    .session-duration { color: var(--accent2); }
-
-    /* ── SIDEBAR ── */
-    .sidebar h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .event-input {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    .event-input input {
-      flex: 1;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      padding: 8px 12px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      background: var(--surface);
-      color: var(--text);
-      outline: none;
-    }
-    .event-input input:focus {
-      border-color: var(--accent2);
-    }
-    .event-input button {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.8rem;
-      padding: 8px 16px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .event-input button:hover { background: #cf4d1a; }
-
-    .events-list {
-      list-style: none;
-    }
-    .event-item {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .event-item:last-child { border-bottom: none; }
-    .event-text { font-weight: 500; }
-    .event-date { color: var(--accent2); font-size: 0.85rem; }
-    .event-delete {
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 0.9rem;
-      padding: 2px 6px;
-      border-radius: 4px;
-      transition: color 0.2s;
-    }
-    .event-delete:hover { color: var(--accent); }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      main { flex-direction: column; }
-      .sidebar { width: 100%; order: 2; }
-      .nav-bar { padding: 0 20px; flex-direction: column; gap: 12px; }
-      .nav-tabs { flex-wrap: wrap; width: 100%; }
-      .nav-controls { width: 100%; }
-      .dark-toggle { width: 100%; justify-content: center; }
-      .nav-tab { padding: 12px 16px; font-size: 0.9rem; }
-      .timer-display { font-size: 3rem; }
-      .gpa-input-row, .idea-input-row { flex-direction: column; }
-      .gpa-input-row input, .gpa-input-row select, .gpa-input-row button,
-      .idea-input-row input, .idea-input-row button { width: 100%; }
-    }
+    #toast.show { opacity: 1; }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
-    <div class="logo">
-      <div class="logo-icon">🎓</div>
-      Student Toolkit
-    </div>
+    <div class="logo"><div class="logo-icon">🎓</div> Student Toolkit</div>
   </header>
 
-  <!-- NAVIGATION -->
   <nav class="nav-bar">
     <div class="nav-tabs">
-      <button class="nav-tab active" data-tab="ideas">
-        💡 Idea Pad
-      </button>
-      <button class="nav-tab" data-tab="gpa">
-        🧮 GPA Calculator
-      </button>
-      <button class="nav-tab" data-tab="timer">
-        ⏱️ Study Timer
-      </button>
+      <button class="nav-tab active" data-tab="ideas">💡 Group Idea Board</button>
+      <button class="nav-tab" data-tab="gpa">🧮 GPA Calculator</button>
+      <button class="nav-tab" data-tab="timer">⏱️ Study Timer</button>
     </div>
-    <div class="nav-controls">
-      <div class="dark-toggle" id="darkToggle">
-        <span class="dark-toggle-label">Dark Mode</span>
-        <button class="toggle-switch" id="darkModeBtn">
-          <div class="toggle-dot"></div>
-        </button>
-      </div>
+    <div class="dark-toggle">
+      <span>Dark Mode</span>
+      <button class="toggle-switch" id="darkModeBtn"><div class="toggle-dot"></div></button>
     </div>
   </nav>
 
-  <!-- MAIN -->
   <main>
     <div class="main-content">
-
-      <!-- IDEA PAD TAB -->
+      
       <div id="ideas-tab" class="tab-content active">
-        <div class="idea-input-card">
-          <h2>Record an Idea</h2>
-          <div class="idea-input-row">
-            <input type="text" id="ideaInput" placeholder="Enter your idea or note here…" maxlength="200"/>
+        <div class="card">
+          <h2>Submit a Group Idea</h2>
+          <div class="input-row">
+            <select id="nameSelect">
+              <option value="" disabled selected>Select your name...</option>
+              <option>Viruna</option><option>Imesh</option><option>Punsara</option>
+              <option>Chirana</option><option>Chamika</option><option>Izzath</option>
+            </select>
+            <input type="text" id="ideaInput" placeholder="Enter your idea here..." maxlength="120"/>
             <button id="addIdeaBtn">+ Add Idea</button>
           </div>
         </div>
 
-        <ul id="ideasList" class="ideas-list">
-          <li class="empty-state">
-            <div class="empty-icon">🗒️</div>
-            <p>No ideas yet. Start recording your thoughts!</p>
-          </li>
-        </ul>
+        <div class="stats-bar">
+          <div class="stat-chip">🟠 <span id="ideaCount">0</span> ideas submitted</div>
+          <div class="stat-chip">🔵 <span id="contribCount">0</span> contributors</div>
+        </div>
+
+        <ul id="ideasList" class="item-list"></ul>
       </div>
 
-      <!-- GPA CALCULATOR TAB -->
       <div id="gpa-tab" class="tab-content">
-        <div class="gpa-input-card">
-          <h2>Add Course to Calculate GPA</h2>
-          <div class="gpa-input-row">
-            <input type="text" id="courseName" placeholder="Course Name" maxlength="50"/>
+        <div class="card">
+          <h2>GPA Calculator</h2>
+          <div class="input-row">
+            <input type="text" id="courseName" placeholder="Course Name"/>
             <select id="courseGrade">
-              <option value="" disabled selected>Select Grade</option>
-              <option value="4.0">A (4.0)</option>
-              <option value="3.7">A- (3.7)</option>
-              <option value="3.3">B+ (3.3)</option>
-              <option value="3.0">B (3.0)</option>
-              <option value="2.7">B- (2.7)</option>
-              <option value="2.3">C+ (2.3)</option>
-              <option value="2.0">C (2.0)</option>
-              <option value="1.7">C- (1.7)</option>
-              <option value="1.3">D+ (1.3)</option>
-              <option value="1.0">D (1.0)</option>
-              <option value="0.0">F (0.0)</option>
+                <option value="4.0">A (4.0)</option><option value="3.0">B (3.0)</option><option value="2.0">C (2.0)</option>
             </select>
-            <input type="number" id="courseCredits" placeholder="Course Credits" min="0.5" max="6" step="0.5"/>
-            <button id="addCourseBtn">Calculate</button>
+            <input type="number" id="courseCredits" placeholder="Credits" min="1"/>
+            <button id="addCourseBtn">Add</button>
           </div>
         </div>
-
-        <div class="gpa-summary">
-          <h3>Overall GPA</h3>
-          <div class="gpa-value" id="gpaDisplay">0.00</div>
+        <div class="card" style="text-align: center;">
+            <h3>Overall GPA: <span id="gpaDisplay" style="color:var(--accent); font-size: 2rem;">0.00</span></h3>
         </div>
-
-        <ul id="coursesList" class="courses-list"></ul>
+        <ul id="coursesList" class="item-list"></ul>
       </div>
 
-      <!-- STUDY TIMER TAB -->
       <div id="timer-tab" class="tab-content">
-        <div class="timer-card">
-          <h2>🍅 Pomodoro Study Timer</h2>
-          <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 16px;">25-minute focused study session</p>
-          <div class="timer-input-row">
-            <input type="number" id="timerMinutes" placeholder="25" min="1" max="180" value="25"/>
-            <span>minutes</span>
-          </div>
-          <div class="timer-display" id="timerDisplay">25:00</div>
-          <div class="timer-controls">
-            <button id="startTimerBtn" class="timer-btn">▶ Start</button>
-            <button id="pauseTimerBtn" class="timer-btn secondary" disabled>⏸ Pause</button>
-            <button id="resetTimerBtn" class="timer-btn secondary">↻ Reset</button>
-          </div>
-        </div>
-
-        <div class="sessions-list">
-          <h3>Study Sessions</h3>
-          <div id="sessionsList">
-            <div class="session-item">
-              <span>No sessions recorded yet.</span>
-            </div>
+        <div class="card" style="text-align: center;">
+          <h2>⏱️ Study Timer</h2>
+          <div id="timerDisplay" style="font-size: 4rem; font-weight: 800; color: var(--accent); margin: 20px 0;">25:00</div>
+          <div class="input-row" style="justify-content: center;">
+            <button id="startTimerBtn">Start</button>
+            <button id="resetTimerBtn" style="background: var(--accent2);">Reset</button>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
-      <h3>📅 Upcoming Events</h3>
-      <div class="event-input">
-        <input type="text" id="eventText" placeholder="Event name" maxlength="50"/>
-        <input type="date" id="eventDate"/>
+      <h3>📅 Events</h3>
+      <div class="input-row" style="margin-top: 10px;">
+        <input type="text" id="eventText" placeholder="Event..."/>
         <button id="addEventBtn">+</button>
       </div>
-      <ul id="eventsList" class="events-list"></ul>
+      <ul id="eventsList" class="item-list" style="margin-top: 15px;"></ul>
     </aside>
   </main>
 
-  <!-- TOAST -->
   <div id="toast"></div>
 
   <script>
-    // Tab switching
-    const navTabs = document.querySelectorAll('.nav-tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    navTabs.forEach(tab => {
+    // --- TAB SYSTEM ---
+    document.querySelectorAll('.nav-tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        navTabs.forEach(t => t.classList.remove('active'));
-        tabContents.forEach(c => c.classList.remove('active'));
-        
+        document.querySelectorAll('.nav-tab, .tab-content').forEach(el => el.classList.remove('active'));
         tab.classList.add('active');
         document.getElementById(tab.dataset.tab + '-tab').classList.add('active');
       });
     });
 
-    // Dark Mode Toggle
+    // --- DARK MODE ---
     const darkModeBtn = document.getElementById('darkModeBtn');
-    const body = document.body;
-
-    // Load dark mode preference from localStorage
-    if (localStorage.getItem('darkMode') === 'enabled') {
-      body.classList.add('dark-mode');
-      darkModeBtn.classList.add('active');
-    }
-
-    darkModeBtn.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
+    darkModeBtn.onclick = () => {
+      document.body.classList.toggle('dark-mode');
       darkModeBtn.classList.toggle('active');
-      
-      // Save preference to localStorage
-      if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('darkMode', 'enabled');
-      } else {
-        localStorage.setItem('darkMode', 'disabled');
-      }
-    });
+    };
 
-    // Toast notifications
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
+    function showToast(m) {
+      const t = document.getElementById('toast');
+      t.textContent = m; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
     }
 
-    // IDEA PAD
+    // --- IDEA BOARD LOGIC ---
     const ideas = [];
-    const ideaInput = document.getElementById('ideaInput');
-    const addIdeaBtn = document.getElementById('addIdeaBtn');
-    const ideasList = document.getElementById('ideasList');
+    document.getElementById('addIdeaBtn').onclick = () => {
+      const name = document.getElementById('nameSelect').value;
+      const text = document.getElementById('ideaInput').value.trim();
+      if(!name || !text) return showToast("Fill all fields!");
+
+      ideas.push({ name, text, time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) });
+      renderIdeas();
+      document.getElementById('ideaInput').value = "";
+    };
 
     function renderIdeas() {
-      ideasList.innerHTML = '';
-      if (ideas.length === 0) {
-        ideasList.innerHTML = `
-          <li class="empty-state">
-            <div class="empty-icon">🗒️</div>
-            <p>No ideas yet. Start recording your thoughts!</p>
-          </li>`;
-        return;
-      }
-      ideas.forEach((idea, idx) => {
-        const li = document.createElement('li');
-        li.className = 'idea-item';
-        li.innerHTML = `
-          <div class="idea-number">${idx + 1}</div>
-          <div class="idea-content">
-            <div class="idea-text">${escHtml(idea.text)}</div>
-            <div class="idea-meta">${idea.time}</div>
-          </div>
-          <button class="delete-btn" onclick="removeIdea(${idx})">✕</button>`;
-        ideasList.appendChild(li);
-      });
+      const list = document.getElementById('ideasList');
+      list.innerHTML = ideas.map((id, i) => `
+        <li class="list-item">
+          <div><strong>${id.name}</strong>: ${id.text} <br><small>${id.time}</small></div>
+          <button class="delete-btn" onclick="removeIdea(${i})">✕</button>
+        </li>`).join('');
+      document.getElementById('ideaCount').textContent = ideas.length;
+      document.getElementById('contribCount').textContent = new Set(ideas.map(i => i.name)).size;
     }
+    window.removeIdea = (i) => { ideas.splice(i, 1); renderIdeas(); };
 
-    function removeIdea(idx) {
-      ideas.splice(idx, 1);
-      renderIdeas();
-      showToast('Idea removed.');
-    }
+    // --- TIMER LOGIC (Simple) ---
+    let timeLeft = 1500;
+    let timer;
+    document.getElementById('startTimerBtn').onclick = function() {
+        if(timer) return;
+        timer = setInterval(() => {
+            if(timeLeft <= 0) { clearInterval(timer); showToast("Time is up!"); return; }
+            timeLeft--;
+            const m = Math.floor(timeLeft/60), s = timeLeft%60;
+            document.getElementById('timerDisplay').textContent = `${m}:${s<10?'0':''}${s}`;
+        }, 1000);
+    };
+    document.getElementById('resetTimerBtn').onclick = () => { clearInterval(timer); timer=null; timeLeft=1500; document.getElementById('timerDisplay').textContent="25:00"; };
 
-    addIdeaBtn.addEventListener('click', () => {
-      const text = ideaInput.value.trim();
-      if (!text) {
-        showToast('⚠️ Please enter an idea!');
-        return;
-      }
-      
-      const now = new Date();
-      const time = now.toLocaleString();
-      ideas.push({ text, time });
-      
-      ideaInput.value = '';
-      ideaInput.focus();
-      renderIdeas();
-      showToast('✅ Idea added!');
-    });
-
-    ideaInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') addIdeaBtn.click();
-    });
-
-    // GPA CALCULATOR
-    const courses = [];
-    const courseName = document.getElementById('courseName');
-    const courseGrade = document.getElementById('courseGrade');
-    const courseCredits = document.getElementById('courseCredits');
-    const addCourseBtn = document.getElementById('addCourseBtn');
-    const coursesList = document.getElementById('coursesList');
-    const gpaDisplay = document.getElementById('gpaDisplay');
-
-    function calculateGPA() {
-      if (courses.length === 0) {
-        gpaDisplay.textContent = '0.00';
-        return;
-      }
-      
-      let totalPoints = 0;
-      let totalCredits = 0;
-      
-      courses.forEach(course => {
-        totalPoints += course.grade * course.credits;
-        totalCredits += course.credits;
-      });
-      
-      const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : '0.00';
-      gpaDisplay.textContent = gpa;
-    }
-
-    function renderCourses() {
-      coursesList.innerHTML = '';
-      courses.forEach((course, idx) => {
-        const li = document.createElement('li');
-        li.className = 'course-item';
-        li.innerHTML = `
-          <div class="course-info">
-            <span class="course-name">${escHtml(course.name)}</span>
-            <span class="course-grade">${course.grade}</span>
-            <span class="course-credits">${course.credits} credits</span>
-          </div>
-          <button class="delete-btn" onclick="removeCourse(${idx})">✕</button>`;
-        coursesList.appendChild(li);
-      });
-      calculateGPA();
-    }
-
-    function removeCourse(idx) {
-      courses.splice(idx, 1);
-      renderCourses();
-      showToast('Course removed.');
-    }
-
-    addCourseBtn.addEventListener('click', () => {
-      const name = courseName.value.trim();
-      const grade = parseFloat(courseGrade.value);
-      const credits = parseFloat(courseCredits.value);
-      
-      if (!name) {
-        showToast('⚠️ Please enter course name!');
-        return;
-      }
-      if (isNaN(grade)) {
-        showToast('⚠️ Please select a grade!');
-        return;
-      }
-      if (isNaN(credits) || credits <= 0) {
-        showToast('⚠️ Please enter valid credits!');
-        return;
-      }
-      
-      courses.push({ name, grade, credits });
-      
-      courseName.value = '';
-      courseGrade.value = '';
-      courseCredits.value = '';
-      courseName.focus();
-      renderCourses();
-      showToast('✅ Course added to GPA calculation!');
-    });
-
-    // STUDY TIMER
-    let timerInterval;
-    let timeLeft = 25 * 60; // 25 minutes in seconds
-    let isRunning = false;
-    let isPaused = false;
-    const sessions = [];
-
-    const timerDisplay = document.getElementById('timerDisplay');
-    const timerMinutes = document.getElementById('timerMinutes');
-    const startTimerBtn = document.getElementById('startTimerBtn');
-    const pauseTimerBtn = document.getElementById('pauseTimerBtn');
-    const resetTimerBtn = document.getElementById('resetTimerBtn');
-    const sessionsList = document.getElementById('sessionsList');
-
-    // Bell sound notification
-    function playBellSound() {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const now = audioContext.currentTime;
-      
-      // Create bell sound using oscillator
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      // Bell-like frequencies
-      oscillator.frequency.setValueAtTime(800, now);
-      oscillator.frequency.exponentialRampToValueAtTime(400, now + 0.5);
-      
-      gainNode.gain.setValueAtTime(0.3, now);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 1);
-      
-      oscillator.start(now);
-      oscillator.stop(now + 1);
-    }
-
-    function updateTimerDisplay() {
-      const minutes = Math.floor(timeLeft / 60);
-      const seconds = timeLeft % 60;
-      timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-
-    function startTimer() {
-      if (isRunning) return;
-      
-      isRunning = true;
-      isPaused = false;
-      startTimerBtn.disabled = true;
-      pauseTimerBtn.disabled = false;
-      
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          isRunning = false;
-          startTimerBtn.disabled = false;
-          pauseTimerBtn.disabled = true;
-          
-          // Record session
-          const now = new Date();
-          const duration = parseInt(timerMinutes.value) || 25;
-          sessions.unshift({
-            time: now.toLocaleString(),
-            duration: duration
-          });
-          renderSessions();
-          
-          // Play bell sound notification
-          playBellSound();
-          showToast('🎉 Pomodoro session complete! Time for a break.');
-          
-          // Desktop notification
-          if ('Notification' in window && Notification.permission === 'granted') {
-            new Notification('🍅 Pomodoro Timer', { 
-              body: 'Your 25-minute study session is complete! Take a break.',
-              icon: '🍅'
-            });
-          }
-        }
-      }, 1000);
-    }
-
-    function pauseTimer() {
-      if (!isRunning) return;
-      
-      clearInterval(timerInterval);
-      isRunning = false;
-      isPaused = true;
-      startTimerBtn.disabled = false;
-      pauseTimerBtn.disabled = true;
-    }
-
-    function resetTimer() {
-      clearInterval(timerInterval);
-      isRunning = false;
-      isPaused = false;
-      timeLeft = (parseInt(timerMinutes.value) || 25) * 60;
-      updateTimerDisplay();
-      startTimerBtn.disabled = false;
-      pauseTimerBtn.disabled = true;
-    }
-
-    function renderSessions() {
-      if (sessions.length === 0) {
-        sessionsList.innerHTML = '<div class="session-item"><span>No sessions recorded yet.</span></div>';
-        return;
-      }
-      
-      sessionsList.innerHTML = sessions.map(session => `
-        <div class="session-item">
-          <span class="session-time">${session.time}</span>
-          <span class="session-duration">${session.duration} min</span>
-        </div>
-      `).join('');
-    }
-
-    startTimerBtn.addEventListener('click', startTimer);
-    pauseTimerBtn.addEventListener('click', pauseTimer);
-    resetTimerBtn.addEventListener('click', resetTimer);
-    
-    timerMinutes.addEventListener('change', () => {
-      if (!isRunning && !isPaused) {
-        timeLeft = parseInt(timerMinutes.value) * 60 || 1500;
-        updateTimerDisplay();
-      }
-    });
-
-    // Request notification permission
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
-
-    // EVENTS SIDEBAR
-    const events = [];
-    const eventText = document.getElementById('eventText');
-    const eventDate = document.getElementById('eventDate');
-    const addEventBtn = document.getElementById('addEventBtn');
-    const eventsList = document.getElementById('eventsList');
-
-    function renderEvents() {
-      eventsList.innerHTML = '';
-      // Sort events by date
-      const sortedEvents = events.sort((a, b) => new Date(a.date) - new Date(b.date));
-      
-      sortedEvents.forEach((event, idx) => {
-        const li = document.createElement('li');
-        li.className = 'event-item';
-        li.innerHTML = `
-          <div>
-            <div class="event-text">${escHtml(event.text)}</div>
-            <div class="event-date">${new Date(event.date).toLocaleDateString()}</div>
-          </div>
-          <button class="event-delete" onclick="removeEvent(${idx})">✕</button>`;
-        eventsList.appendChild(li);
-      });
-    }
-
-    function removeEvent(idx) {
-      events.splice(idx, 1);
-      renderEvents();
-      showToast('Event removed.');
-    }
-
-    addEventBtn.addEventListener('click', () => {
-      const text = eventText.value.trim();
-      const date = eventDate.value;
-      
-      if (!text) {
-        showToast('⚠️ Please enter event name!');
-        return;
-      }
-      if (!date) {
-        showToast('⚠️ Please select a date!');
-        return;
-      }
-      
-      events.push({ text, date });
-      
-      eventText.value = '';
-      eventDate.value = '';
-      eventText.focus();
-      renderEvents();
-      showToast('✅ Event added!');
-    });
-
-    function escHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-
-    // Initialize
-    updateTimerDisplay();
-    renderIdeas();
-    renderCourses();
-    renderSessions();
-    renderEvents();
-  </script>
-</body>
-</html>
-  </style>
-</head>
-<body>
-
-  <!-- HEADER -->
-  <header>
-    <div class="logo">
-      <div class="logo-icon">💡</div>
-      IdeaBoard
-    </div>
-    <span class="header-tag">Day 03 Project</span>
-  </header>
-
-  <!-- HERO -->
-  <div class="hero">
-    <h1>Group <span>Idea</span> Board</h1>
-    <p>Share your ideas with the team — every idea counts.</p>
-  </div>
-
-  <!-- MAIN -->
-  <main>
-
-    <!-- Input Card -->
-    <div class="input-card">
-      <h2>Submit an Idea</h2>
-      <div class="input-row">
-        <select id="nameSelect">
-          <option value="" disabled selected>Select your name…</option>
-          <option>Viruna</option>
-          <option>Imesh</option>
-          <option>Punsara</option>
-          <option>Chirana</option>
-          <option>Chamika</option>
-          <option>Izzath</option>
-          <option>Virangi</option>
-          <option>Shanthiyasha</option>
-        </select>
-        <input type="text" id="ideaInput" placeholder="Enter your idea here…" maxlength="120"/>
-        <button id="addBtn">+ Add Idea</button>
-      </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-bar">
-      <div class="stat-chip">
-        <span class="dot dot-orange"></span>
-        <span><span id="ideaCount">0</span> ideas submitted</span>
-      </div>
-      <div class="stat-chip">
-        <span class="dot dot-blue"></span>
-        <span id="contributorCount">0 contributors</span>
-      </div>
-    </div>
-
-    <!-- Ideas List -->
-    <div class="list-header">
-      <h2>All Ideas</h2>
-      <button id="clearBtn">Clear All</button>
-    </div>
-
-    <ul id="ideasList">
-      <li class="empty-state">
-        <div class="empty-icon">🗒️</div>
-        <p>No ideas yet. Be the first to share one!</p>
-      </li>
-    </ul>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    Built by <strong>your team</strong> · Day 03 Workshop · Group Idea Board
-  </footer>
-
-  <!-- TOAST -->
-  <div id="toast"></div>
-
-  <script>
-    const ideas = [];
-
-    const nameSelect = document.getElementById('nameSelect');
-    const ideaInput  = document.getElementById('ideaInput');
-    const addBtn     = document.getElementById('addBtn');
-    const clearBtn   = document.getElementById('clearBtn');
-    const ideasList  = document.getElementById('ideasList');
-    const ideaCount  = document.getElementById('ideaCount');
-    const contribCount = document.getElementById('contributorCount');
-    const toast      = document.getElementById('toast');
-
-    function showToast(msg) {
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
-    }
-
-    function updateStats() {
-      ideaCount.textContent = ideas.length;
-      const unique = new Set(ideas.map(i => i.name)).size;
-      contribCount.textContent = unique + (unique === 1 ? ' contributor' : ' contributors');
-    }
-
-    function render() {
-      ideasList.innerHTML = '';
-      if (ideas.length === 0) {
-        ideasList.innerHTML = `
-          <li class="empty-state">
-            <div class="empty-icon">🗒️</div>
-            <p>No ideas yet. Be the first to share one!</p>
-          </li>`;
-        return;
-      }
-      ideas.forEach((idea, idx) => {
-        const li = document.createElement('li');
-        li.className = 'idea-item';
-        li.innerHTML = `
-          <div class="idea-number">${idx + 1}</div>
-          <div class="idea-content">
-            <div class="idea-text">${escHtml(idea.text)}</div>
-            <div class="idea-meta">suggested by <strong>${escHtml(idea.name)}</strong> · ${idea.time}</div>
-          </div>
-          <button class="delete-btn" title="Remove" onclick="removeIdea(${idx})">✕</button>`;
-        ideasList.appendChild(li);
-      });
-    }
-
-    function escHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-
-    function removeIdea(idx) {
-      ideas.splice(idx, 1);
-      render();
-      updateStats();
-      showToast('Idea removed.');
-    }
-
-    addBtn.addEventListener('click', () => {
-      const name = nameSelect.value;
-      const text = ideaInput.value.trim();
-      if (!name) { showToast('⚠️ Please select your name first!'); return; }
-      if (!text)  { showToast('⚠️ Please enter an idea!'); return; }
-
-      const now = new Date();
-      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      ideas.push({ name, text, time });
-
-      ideaInput.value = '';
-      ideaInput.focus();
-      render();
-      updateStats();
-      showToast('✅ Idea added!');
-    });
-
-    ideaInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') addBtn.click();
-    });
-
-    clearBtn.addEventListener('click', () => {
-      if (ideas.length === 0) return;
-      if (confirm('Clear all ideas? This cannot be undone.')) {
-        ideas.length = 0;
-        render();
-        updateStats();
-        showToast('Board cleared.');
-      }
-    });
   </script>
 </body>
 </html>
