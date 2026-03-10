@@ -7,17 +7,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #f0ebe3;
-      --surface: #fff8f0;
-      --card: #ffffff;
-      --accent: #e85d26;
-      --accent2: #2d6be4;
-      --text: #1a1612;
-      --muted: #8a7f75;
-      --border: #e0d8ce;
-      --radius: 14px;
+      --bg: #f5f0f0; --surface: #fff5f5; --card: #ffffff;
+      --maroon: #8b1a1a; --maroon-dark: #5a0f0f; --maroon-light: #a52020;
+      --gold: #c9a84c; --gold-light: #e8c76a; --gold-pale: #fdf6e3;
+      --text: #1a0a0a; --muted: #7a5a5a; --border: #e8d5d5; --radius: 14px;
+      --shadow: 0 4px 24px rgba(139,26,26,0.08);
+    }
+    body.dark-mode {
+      --bg: #1a0a0a; --surface: #2d1515; --card: #3a1f1f;
+      --text: #f5ebe8; --muted: #b08080; --border: #5a2a2a;
     }
 
     body.dark-mode {
@@ -30,12 +29,10 @@
     }
 
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg); min-height: 100vh;
+      display: flex; flex-direction: column;
+      color: var(--text); transition: background 0.3s, color 0.3s;
     }
 
     /* ── HEADER & NAV ── */
@@ -107,6 +104,8 @@
       width: 300px; background: var(--card); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 24px; height: fit-content;
     }
+    .session-item:last-child { border-bottom: none; }
+    .session-dur { color: var(--maroon); font-weight: 700; }
 
     .tab-content { display: none; animation: fadeIn 0.3s ease; }
     .tab-content.active { display: block; }
