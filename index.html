@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Group Idea Board</title>
+  <title>Student Toolkit</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,6 +18,15 @@
       --muted: #8a7f75;
       --border: #e0d8ce;
       --radius: 14px;
+    }
+
+    body.dark-mode {
+      --bg: #1a1612;
+      --surface: #2d2420;
+      --card: #3a332a;
+      --text: #f0ebe3;
+      --muted: #a9a39a;
+      --border: #4a423a;
     }
 
     body {
@@ -54,65 +63,137 @@
       display: grid; place-items: center;
       font-size: 1.1rem;
     }
-    .header-tag {
-      font-size: 0.75rem;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 4px 12px;
-      border-radius: 99px;
-      letter-spacing: 0.5px;
+
+    /* ── NAVIGATION ── */
+    .nav-bar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 0;
+    }
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
 
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(135deg, #1a1612 0%, #2d1f14 50%, #1a1612 100%);
-      padding: 48px 40px 56px;
-      text-align: center;
+    /* Dark Mode Toggle */
+    .dark-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    .dark-toggle:hover {
+      background: var(--border);
+    }
+    .dark-toggle-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      user-select: none;
+    }
+    .toggle-switch {
+      width: 40px;
+      height: 22px;
+      background: var(--muted);
+      border-radius: 11px;
       position: relative;
-      overflow: hidden;
+      transition: background 0.3s ease;
+      border: none;
+      cursor: pointer;
+      padding: 2px;
     }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 80% at 50% 120%, rgba(232,93,38,0.25) 0%, transparent 70%);
+    .toggle-switch.active {
+      background: var(--accent);
     }
-    .hero h1 {
+    .toggle-dot {
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: left 0.3s ease;
+    }
+    .toggle-switch.active .toggle-dot {
+      left: 20px;
+    }
+    .nav-tab {
+      padding: 16px 24px;
+      background: transparent;
+      border: none;
       font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 800;
-      color: #fff;
-      position: relative;
-      letter-spacing: -1px;
-      line-height: 1.1;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .hero h1 span { color: var(--accent); }
-    .hero p {
-      margin-top: 12px;
-      color: rgba(255,255,255,0.55);
-      font-size: 1rem;
-      position: relative;
+    .nav-tab:hover { color: var(--text); }
+    .nav-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
     }
 
     /* ── MAIN ── */
     main {
       flex: 1;
-      max-width: 780px;
+      display: flex;
+      max-width: 1200px;
       width: 100%;
       margin: 0 auto;
       padding: 40px 24px;
+      gap: 32px;
     }
 
-    /* ── INPUT CARD ── */
-    .input-card {
+    .main-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sidebar {
+      width: 300px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      height: fit-content;
+    }
+
+    /* ── TAB CONTENT ── */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .tab-content.active { display: block; }
+
+    /* ── IDEA PAD ── */
+    .idea-input-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 28px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.06);
       margin-bottom: 32px;
-      animation: slideDown 0.4s ease;
     }
-    .input-card h2 {
+    .idea-input-card h2 {
       font-family: 'Syne', sans-serif;
       font-size: 1rem;
       font-weight: 700;
@@ -121,12 +202,12 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    .input-row {
+    .idea-input-row {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    select, input[type="text"] {
+    .idea-input-row input {
       font-family: 'DM Sans', sans-serif;
       font-size: 0.95rem;
       padding: 12px 16px;
@@ -136,14 +217,14 @@
       color: var(--text);
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
+      flex: 1;
+      min-width: 200px;
     }
-    select:focus, input[type="text"]:focus {
+    .idea-input-row input:focus {
       border-color: var(--accent2);
       box-shadow: 0 0 0 3px rgba(45,107,228,0.12);
     }
-    select { min-width: 170px; cursor: pointer; }
-    input[type="text"] { flex: 1; min-width: 200px; }
-    button#addBtn {
+    .idea-input-row button {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 0.9rem;
@@ -157,74 +238,15 @@
       transition: background 0.2s, transform 0.1s;
       white-space: nowrap;
     }
-    button#addBtn:hover { background: #cf4d1a; }
-    button#addBtn:active { transform: scale(0.97); }
+    .idea-input-row button:hover { background: #cf4d1a; }
+    .idea-input-row button:active { transform: scale(0.97); }
 
-    /* ── STATS BAR ── */
-    .stats-bar {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-    .stat-chip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 99px;
-      padding: 8px 16px;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-    .stat-chip .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-    }
-    .dot-orange { background: var(--accent); }
-    .dot-blue { background: var(--accent2); }
-    #ideaCount {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-    }
-
-    /* ── IDEAS LIST ── */
-    .list-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    .list-header h2 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.25rem;
-    }
-    button#clearBtn {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 500;
-      padding: 6px 14px;
-      background: transparent;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    button#clearBtn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    #ideasList {
+    .ideas-list {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-
     .idea-item {
       background: var(--card);
       border: 1px solid var(--border);
@@ -237,7 +259,6 @@
       transition: box-shadow 0.2s;
     }
     .idea-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
-
     .idea-number {
       width: 28px; height: 28px;
       min-width: 28px;
@@ -250,7 +271,6 @@
       font-weight: 700;
       color: var(--muted);
     }
-
     .idea-content { flex: 1; }
     .idea-text {
       font-size: 0.95rem;
@@ -262,11 +282,6 @@
       font-size: 0.78rem;
       color: var(--muted);
     }
-    .idea-meta strong {
-      color: var(--accent2);
-      font-weight: 600;
-    }
-
     .delete-btn {
       background: none;
       border: none;
@@ -280,59 +295,795 @@
     }
     .delete-btn:hover { color: var(--accent); background: #fff0ec; }
 
-    /* ── EMPTY STATE ── */
-    .empty-state {
-      text-align: center;
-      padding: 48px 24px;
-      color: var(--muted);
+    /* ── GPA CALCULATOR ── */
+    .gpa-input-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      margin-bottom: 32px;
     }
-    .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .empty-state p { font-size: 0.95rem; }
-
-    /* ── TOAST ── */
-    #toast {
-      position: fixed;
-      bottom: 32px; left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: var(--text);
+    .gpa-input-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .gpa-input-row input, .gpa-input-row select {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .gpa-input-row input:focus, .gpa-input-row select:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(45,107,228,0.12);
+    }
+    .gpa-input-row input { flex: 1; min-width: 150px; }
+    .gpa-input-row select { min-width: 120px; cursor: pointer; }
+    .gpa-input-row button {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      padding: 12px 24px;
+      background: var(--accent);
       color: #fff;
-      padding: 12px 22px;
-      border-radius: 99px;
-      font-size: 0.88rem;
-      font-weight: 500;
-      transition: transform 0.3s ease;
-      z-index: 999;
-      pointer-events: none;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
     }
-    #toast.show { transform: translateX(-50%) translateY(0); }
+    .gpa-input-row button:hover { background: #cf4d1a; }
+    .gpa-input-row button:active { transform: scale(0.97); }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--text);
-      color: rgba(255,255,255,0.4);
-      text-align: center;
+    .gpa-summary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       padding: 20px;
-      font-size: 0.8rem;
+      margin-bottom: 24px;
+      text-align: center;
     }
-    footer strong { color: rgba(255,255,255,0.7); }
+    .gpa-summary h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .gpa-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      font-family: 'Syne', sans-serif;
+    }
+
+    .courses-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .course-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .course-info {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .course-name { font-weight: 600; }
+    .course-grade { color: var(--accent2); font-weight: 700; }
+    .course-credits { color: var(--muted); font-size: 0.9rem; }
+
+    /* ── STUDY TIMER ── */
+    .timer-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .timer-display {
+      font-family: 'Syne', sans-serif;
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 24px 0;
+      letter-spacing: 2px;
+    }
+    .timer-controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .timer-btn {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      padding: 12px 20px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .timer-btn:hover { background: #cf4d1a; }
+    .timer-btn:active { transform: scale(0.97); }
+    .timer-btn.secondary { background: var(--accent2); }
+    .timer-btn.secondary:hover { background: #1e4bb8; }
+    .timer-btn:disabled { background: var(--muted); cursor: not-allowed; }
+
+    .timer-input-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .timer-input-row input {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      width: 80px;
+      text-align: center;
+    }
+    .timer-input-row input:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(45,107,228,0.12);
+    }
+
+    .sessions-list {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .sessions-list h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .session-item {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .session-item:last-child { border-bottom: none; }
+    .session-time { font-weight: 600; }
+    .session-duration { color: var(--accent2); }
+
+    /* ── SIDEBAR ── */
+    .sidebar h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .event-input {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .event-input input {
+      flex: 1;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      padding: 8px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+    }
+    .event-input input:focus {
+      border-color: var(--accent2);
+    }
+    .event-input button {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 8px 16px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .event-input button:hover { background: #cf4d1a; }
+
+    .events-list {
+      list-style: none;
+    }
+    .event-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .event-item:last-child { border-bottom: none; }
+    .event-text { font-weight: 500; }
+    .event-date { color: var(--accent2); font-size: 0.85rem; }
+    .event-delete {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: color 0.2s;
+    }
+    .event-delete:hover { color: var(--accent); }
 
     /* ── ANIMATIONS ── */
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 540px) {
-      header { padding: 14px 20px; }
-      .hero { padding: 36px 20px 44px; }
-      main { padding: 28px 16px; }
-      .input-row { flex-direction: column; }
-      select, input[type="text"], button#addBtn { width: 100%; }
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      main { flex-direction: column; }
+      .sidebar { width: 100%; order: 2; }
+      .nav-bar { padding: 0 20px; flex-direction: column; gap: 12px; }
+      .nav-tabs { flex-wrap: wrap; width: 100%; }
+      .nav-controls { width: 100%; }
+      .dark-toggle { width: 100%; justify-content: center; }
+      .nav-tab { padding: 12px 16px; font-size: 0.9rem; }
+      .timer-display { font-size: 3rem; }
+      .gpa-input-row, .idea-input-row { flex-direction: column; }
+      .gpa-input-row input, .gpa-input-row select, .gpa-input-row button,
+      .idea-input-row input, .idea-input-row button { width: 100%; }
     }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🎓</div>
+      Student Toolkit
+    </div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav class="nav-bar">
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-tab="ideas">
+        💡 Idea Pad
+      </button>
+      <button class="nav-tab" data-tab="gpa">
+        🧮 GPA Calculator
+      </button>
+      <button class="nav-tab" data-tab="timer">
+        ⏱️ Study Timer
+      </button>
+    </div>
+    <div class="nav-controls">
+      <div class="dark-toggle" id="darkToggle">
+        <span class="dark-toggle-label">Dark Mode</span>
+        <button class="toggle-switch" id="darkModeBtn">
+          <div class="toggle-dot"></div>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <div class="main-content">
+
+      <!-- IDEA PAD TAB -->
+      <div id="ideas-tab" class="tab-content active">
+        <div class="idea-input-card">
+          <h2>Record an Idea</h2>
+          <div class="idea-input-row">
+            <input type="text" id="ideaInput" placeholder="Enter your idea or note here…" maxlength="200"/>
+            <button id="addIdeaBtn">+ Add Idea</button>
+          </div>
+        </div>
+
+        <ul id="ideasList" class="ideas-list">
+          <li class="empty-state">
+            <div class="empty-icon">🗒️</div>
+            <p>No ideas yet. Start recording your thoughts!</p>
+          </li>
+        </ul>
+      </div>
+
+      <!-- GPA CALCULATOR TAB -->
+      <div id="gpa-tab" class="tab-content">
+        <div class="gpa-input-card">
+          <h2>Add Course to Calculate GPA</h2>
+          <div class="gpa-input-row">
+            <input type="text" id="courseName" placeholder="Course Name" maxlength="50"/>
+            <select id="courseGrade">
+              <option value="" disabled selected>Select Grade</option>
+              <option value="4.0">A (4.0)</option>
+              <option value="3.7">A- (3.7)</option>
+              <option value="3.3">B+ (3.3)</option>
+              <option value="3.0">B (3.0)</option>
+              <option value="2.7">B- (2.7)</option>
+              <option value="2.3">C+ (2.3)</option>
+              <option value="2.0">C (2.0)</option>
+              <option value="1.7">C- (1.7)</option>
+              <option value="1.3">D+ (1.3)</option>
+              <option value="1.0">D (1.0)</option>
+              <option value="0.0">F (0.0)</option>
+            </select>
+            <input type="number" id="courseCredits" placeholder="Course Credits" min="0.5" max="6" step="0.5"/>
+            <button id="addCourseBtn">Calculate</button>
+          </div>
+        </div>
+
+        <div class="gpa-summary">
+          <h3>Overall GPA</h3>
+          <div class="gpa-value" id="gpaDisplay">0.00</div>
+        </div>
+
+        <ul id="coursesList" class="courses-list"></ul>
+      </div>
+
+      <!-- STUDY TIMER TAB -->
+      <div id="timer-tab" class="tab-content">
+        <div class="timer-card">
+          <h2>🍅 Pomodoro Study Timer</h2>
+          <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 16px;">25-minute focused study session</p>
+          <div class="timer-input-row">
+            <input type="number" id="timerMinutes" placeholder="25" min="1" max="180" value="25"/>
+            <span>minutes</span>
+          </div>
+          <div class="timer-display" id="timerDisplay">25:00</div>
+          <div class="timer-controls">
+            <button id="startTimerBtn" class="timer-btn">▶ Start</button>
+            <button id="pauseTimerBtn" class="timer-btn secondary" disabled>⏸ Pause</button>
+            <button id="resetTimerBtn" class="timer-btn secondary">↻ Reset</button>
+          </div>
+        </div>
+
+        <div class="sessions-list">
+          <h3>Study Sessions</h3>
+          <div id="sessionsList">
+            <div class="session-item">
+              <span>No sessions recorded yet.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h3>📅 Upcoming Events</h3>
+      <div class="event-input">
+        <input type="text" id="eventText" placeholder="Event name" maxlength="50"/>
+        <input type="date" id="eventDate"/>
+        <button id="addEventBtn">+</button>
+      </div>
+      <ul id="eventsList" class="events-list"></ul>
+    </aside>
+  </main>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <script>
+    // Tab switching
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        navTabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab + '-tab').classList.add('active');
+      });
+    });
+
+    // Dark Mode Toggle
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    const body = document.body;
+
+    // Load dark mode preference from localStorage
+    if (localStorage.getItem('darkMode') === 'enabled') {
+      body.classList.add('dark-mode');
+      darkModeBtn.classList.add('active');
+    }
+
+    darkModeBtn.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      darkModeBtn.classList.toggle('active');
+      
+      // Save preference to localStorage
+      if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    });
+
+    // Toast notifications
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // IDEA PAD
+    const ideas = [];
+    const ideaInput = document.getElementById('ideaInput');
+    const addIdeaBtn = document.getElementById('addIdeaBtn');
+    const ideasList = document.getElementById('ideasList');
+
+    function renderIdeas() {
+      ideasList.innerHTML = '';
+      if (ideas.length === 0) {
+        ideasList.innerHTML = `
+          <li class="empty-state">
+            <div class="empty-icon">🗒️</div>
+            <p>No ideas yet. Start recording your thoughts!</p>
+          </li>`;
+        return;
+      }
+      ideas.forEach((idea, idx) => {
+        const li = document.createElement('li');
+        li.className = 'idea-item';
+        li.innerHTML = `
+          <div class="idea-number">${idx + 1}</div>
+          <div class="idea-content">
+            <div class="idea-text">${escHtml(idea.text)}</div>
+            <div class="idea-meta">${idea.time}</div>
+          </div>
+          <button class="delete-btn" onclick="removeIdea(${idx})">✕</button>`;
+        ideasList.appendChild(li);
+      });
+    }
+
+    function removeIdea(idx) {
+      ideas.splice(idx, 1);
+      renderIdeas();
+      showToast('Idea removed.');
+    }
+
+    addIdeaBtn.addEventListener('click', () => {
+      const text = ideaInput.value.trim();
+      if (!text) {
+        showToast('⚠️ Please enter an idea!');
+        return;
+      }
+      
+      const now = new Date();
+      const time = now.toLocaleString();
+      ideas.push({ text, time });
+      
+      ideaInput.value = '';
+      ideaInput.focus();
+      renderIdeas();
+      showToast('✅ Idea added!');
+    });
+
+    ideaInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') addIdeaBtn.click();
+    });
+
+    // GPA CALCULATOR
+    const courses = [];
+    const courseName = document.getElementById('courseName');
+    const courseGrade = document.getElementById('courseGrade');
+    const courseCredits = document.getElementById('courseCredits');
+    const addCourseBtn = document.getElementById('addCourseBtn');
+    const coursesList = document.getElementById('coursesList');
+    const gpaDisplay = document.getElementById('gpaDisplay');
+
+    function calculateGPA() {
+      if (courses.length === 0) {
+        gpaDisplay.textContent = '0.00';
+        return;
+      }
+      
+      let totalPoints = 0;
+      let totalCredits = 0;
+      
+      courses.forEach(course => {
+        totalPoints += course.grade * course.credits;
+        totalCredits += course.credits;
+      });
+      
+      const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : '0.00';
+      gpaDisplay.textContent = gpa;
+    }
+
+    function renderCourses() {
+      coursesList.innerHTML = '';
+      courses.forEach((course, idx) => {
+        const li = document.createElement('li');
+        li.className = 'course-item';
+        li.innerHTML = `
+          <div class="course-info">
+            <span class="course-name">${escHtml(course.name)}</span>
+            <span class="course-grade">${course.grade}</span>
+            <span class="course-credits">${course.credits} credits</span>
+          </div>
+          <button class="delete-btn" onclick="removeCourse(${idx})">✕</button>`;
+        coursesList.appendChild(li);
+      });
+      calculateGPA();
+    }
+
+    function removeCourse(idx) {
+      courses.splice(idx, 1);
+      renderCourses();
+      showToast('Course removed.');
+    }
+
+    addCourseBtn.addEventListener('click', () => {
+      const name = courseName.value.trim();
+      const grade = parseFloat(courseGrade.value);
+      const credits = parseFloat(courseCredits.value);
+      
+      if (!name) {
+        showToast('⚠️ Please enter course name!');
+        return;
+      }
+      if (isNaN(grade)) {
+        showToast('⚠️ Please select a grade!');
+        return;
+      }
+      if (isNaN(credits) || credits <= 0) {
+        showToast('⚠️ Please enter valid credits!');
+        return;
+      }
+      
+      courses.push({ name, grade, credits });
+      
+      courseName.value = '';
+      courseGrade.value = '';
+      courseCredits.value = '';
+      courseName.focus();
+      renderCourses();
+      showToast('✅ Course added to GPA calculation!');
+    });
+
+    // STUDY TIMER
+    let timerInterval;
+    let timeLeft = 25 * 60; // 25 minutes in seconds
+    let isRunning = false;
+    let isPaused = false;
+    const sessions = [];
+
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerMinutes = document.getElementById('timerMinutes');
+    const startTimerBtn = document.getElementById('startTimerBtn');
+    const pauseTimerBtn = document.getElementById('pauseTimerBtn');
+    const resetTimerBtn = document.getElementById('resetTimerBtn');
+    const sessionsList = document.getElementById('sessionsList');
+
+    // Bell sound notification
+    function playBellSound() {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const now = audioContext.currentTime;
+      
+      // Create bell sound using oscillator
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Bell-like frequencies
+      oscillator.frequency.setValueAtTime(800, now);
+      oscillator.frequency.exponentialRampToValueAtTime(400, now + 0.5);
+      
+      gainNode.gain.setValueAtTime(0.3, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 1);
+      
+      oscillator.start(now);
+      oscillator.stop(now + 1);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      if (isRunning) return;
+      
+      isRunning = true;
+      isPaused = false;
+      startTimerBtn.disabled = true;
+      pauseTimerBtn.disabled = false;
+      
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          isRunning = false;
+          startTimerBtn.disabled = false;
+          pauseTimerBtn.disabled = true;
+          
+          // Record session
+          const now = new Date();
+          const duration = parseInt(timerMinutes.value) || 25;
+          sessions.unshift({
+            time: now.toLocaleString(),
+            duration: duration
+          });
+          renderSessions();
+          
+          // Play bell sound notification
+          playBellSound();
+          showToast('🎉 Pomodoro session complete! Time for a break.');
+          
+          // Desktop notification
+          if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification('🍅 Pomodoro Timer', { 
+              body: 'Your 25-minute study session is complete! Take a break.',
+              icon: '🍅'
+            });
+          }
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      if (!isRunning) return;
+      
+      clearInterval(timerInterval);
+      isRunning = false;
+      isPaused = true;
+      startTimerBtn.disabled = false;
+      pauseTimerBtn.disabled = true;
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      isRunning = false;
+      isPaused = false;
+      timeLeft = (parseInt(timerMinutes.value) || 25) * 60;
+      updateTimerDisplay();
+      startTimerBtn.disabled = false;
+      pauseTimerBtn.disabled = true;
+    }
+
+    function renderSessions() {
+      if (sessions.length === 0) {
+        sessionsList.innerHTML = '<div class="session-item"><span>No sessions recorded yet.</span></div>';
+        return;
+      }
+      
+      sessionsList.innerHTML = sessions.map(session => `
+        <div class="session-item">
+          <span class="session-time">${session.time}</span>
+          <span class="session-duration">${session.duration} min</span>
+        </div>
+      `).join('');
+    }
+
+    startTimerBtn.addEventListener('click', startTimer);
+    pauseTimerBtn.addEventListener('click', pauseTimer);
+    resetTimerBtn.addEventListener('click', resetTimer);
+    
+    timerMinutes.addEventListener('change', () => {
+      if (!isRunning && !isPaused) {
+        timeLeft = parseInt(timerMinutes.value) * 60 || 1500;
+        updateTimerDisplay();
+      }
+    });
+
+    // Request notification permission
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+
+    // EVENTS SIDEBAR
+    const events = [];
+    const eventText = document.getElementById('eventText');
+    const eventDate = document.getElementById('eventDate');
+    const addEventBtn = document.getElementById('addEventBtn');
+    const eventsList = document.getElementById('eventsList');
+
+    function renderEvents() {
+      eventsList.innerHTML = '';
+      // Sort events by date
+      const sortedEvents = events.sort((a, b) => new Date(a.date) - new Date(b.date));
+      
+      sortedEvents.forEach((event, idx) => {
+        const li = document.createElement('li');
+        li.className = 'event-item';
+        li.innerHTML = `
+          <div>
+            <div class="event-text">${escHtml(event.text)}</div>
+            <div class="event-date">${new Date(event.date).toLocaleDateString()}</div>
+          </div>
+          <button class="event-delete" onclick="removeEvent(${idx})">✕</button>`;
+        eventsList.appendChild(li);
+      });
+    }
+
+    function removeEvent(idx) {
+      events.splice(idx, 1);
+      renderEvents();
+      showToast('Event removed.');
+    }
+
+    addEventBtn.addEventListener('click', () => {
+      const text = eventText.value.trim();
+      const date = eventDate.value;
+      
+      if (!text) {
+        showToast('⚠️ Please enter event name!');
+        return;
+      }
+      if (!date) {
+        showToast('⚠️ Please select a date!');
+        return;
+      }
+      
+      events.push({ text, date });
+      
+      eventText.value = '';
+      eventDate.value = '';
+      eventText.focus();
+      renderEvents();
+      showToast('✅ Event added!');
+    });
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Initialize
+    updateTimerDisplay();
+    renderIdeas();
+    renderCourses();
+    renderSessions();
+    renderEvents();
+  </script>
+</body>
+</html>
   </style>
 </head>
 <body>
