@@ -921,34 +921,7 @@
           <button onclick="addEvent()">+ Add Event</button>
         </div>
         <ul class="events-list" id="eventsList">
-          <li class="event-item" style="cursor:default">
-            <div>
-              <div class="event-name">Midterm Exam — CS 101</div>
-              <div class="event-date">Mar 14 · 9:00 AM</div>
-              <span class="event-tag tag-exam">Exam</span>
-            </div>
-          </li>
-          <li class="event-item" style="cursor:default">
-            <div>
-              <div class="event-name">Project Submission</div>
-              <div class="event-date">Mar 17 · 11:59 PM</div>
-              <span class="event-tag tag-deadline">Deadline</span>
-            </div>
-          </li>
-          <li class="event-item" style="cursor:default">
-            <div>
-              <div class="event-name">Science & Tech Fair</div>
-              <div class="event-date">Mar 21 · 10:00 AM</div>
-              <span class="event-tag tag-event">Event</span>
-            </div>
-          </li>
-          <li class="event-item" style="cursor:default">
-            <div>
-              <div class="event-name">Coding Club Meetup</div>
-              <div class="event-date">Every Mon · 5:00 PM</div>
-              <span class="event-tag tag-club">Club</span>
-            </div>
-          </li>
+          <!-- Events rendered via JS -->
         </ul>
       </div>
     </aside>
@@ -982,22 +955,25 @@
       setTimeout(() => t.classList.remove('show'), 2500);
     }
     function escHtml(s) {
-      if (!s) return "";
-      return s.toString()
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // PERSISTENCE HELPERS
+    function saveAll() {
+      localStorage.setItem('ideas', JSON.stringify(ideas));
+      localStorage.setItem('courses', JSON.stringify(courses));
+      localStorage.setItem('sessions', JSON.stringify(sessions));
+      localStorage.setItem('events', JSON.stringify(events));
     }
 
     // IDEA PAD
-    const ideas = [];
+    const ideas = JSON.parse(localStorage.getItem('ideas') || '[]');
     function addIdea() {
-      const text = document.getElementById('ideaInput').value.trim();
+      let text = document.getElementById('ideaInput').value.trim();
       if (!text) { showToast('⚠️ Enter an idea!'); return; }
 
-      const isDuplicate = ideas.some(i => i.text.toLowerCase() === text.toLowerCase());
+      // Treatment: same idea if content matches (case-insensitive & trimmed)
+      const isDuplicate = ideas.some(i => i.text.toLowerCase().trim() === text.toLowerCase());
       if (isDuplicate) {
         showToast('⚠️ Idea already exists!');
         return;
@@ -1005,10 +981,11 @@
 
       ideas.push({ text, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
       document.getElementById('ideaInput').value = '';
+      saveAll();
       renderIdeas(); showToast('✅ Idea added!');
     }
     document.getElementById('ideaInput').addEventListener('keydown', e => { if (e.key === 'Enter') addIdea(); });
-    function removeIdea(idx) { ideas.splice(idx, 1); renderIdeas(); showToast('Idea removed.'); }
+    function removeIdea(idx) { ideas.splice(idx, 1); saveAll(); renderIdeas(); showToast('Idea removed.'); }
     function renderIdeas() {
       const list = document.getElementById('ideasList');
       if (!ideas.length) { list.innerHTML = '<li class="empty-state"><div class="empty-icon">🗒️</div><p>No ideas yet. Start recording!</p></li>'; return; }
@@ -1021,7 +998,7 @@
     }
 
     // GPA
-    const courses = [];
+    const courses = JSON.parse(localStorage.getItem('courses') || '[]');
     function addCourse() {
       const name = document.getElementById('courseName').value.trim();
       const grade = parseFloat(document.getElementById('courseGrade').value);
@@ -1033,9 +1010,10 @@
       document.getElementById('courseName').value = '';
       document.getElementById('courseGrade').value = '';
       document.getElementById('courseCredits').value = '';
+      saveAll();
       renderCourses(); showToast('✅ Course added!');
     }
-    function removeCourse(idx) { courses.splice(idx, 1); renderCourses(); showToast('Course removed.'); }
+    function removeCourse(idx) { courses.splice(idx, 1); saveAll(); renderCourses(); showToast('Course removed.'); }
     function renderCourses() {
       const totalCredits = courses.reduce((s, c) => s + c.credits, 0);
       const totalPoints = courses.reduce((s, c) => s + c.grade * c.credits, 0);
@@ -1076,6 +1054,7 @@
           document.getElementById('pauseBtn').disabled = true;
           const mins = parseInt(document.getElementById('timerMinutes').value) || 25;
           sessions.unshift({ time: new Date().toLocaleTimeString(), duration: mins });
+          saveAll();
           renderSessions(); playBell(); showToast('🎉 Session complete! Take a break.');
         }
       }, 1000);
@@ -1119,20 +1098,51 @@
       } catch (e) { }
     }
 
-    // EVENTS (dynamic adds)
+    // EVENTS
+    const defaultEvents = [
+      { text: "Midterm Exam — CS 101", date: "2024-03-14", tag: "Exam", class: "tag-exam" },
+      { text: "Project Submission", date: "2024-03-17", tag: "Deadline", class: "tag-deadline" },
+      { text: "Science & Tech Fair", date: "2024-03-21", tag: "Event", class: "tag-event" },
+      { text: "Coding Club Meetup", date: "2024-03-25", tag: "Club", class: "tag-club" }
+    ];
+    const events = JSON.parse(localStorage.getItem('events') || JSON.stringify(defaultEvents));
+
+    function renderEvents() {
+      const list = document.getElementById('eventsList');
+      list.innerHTML = '';
+      events.forEach((ev, idx) => {
+        const li = document.createElement('li'); li.className = 'event-item';
+        li.innerHTML = `<div><div class="event-name">${escHtml(ev.text)}</div><div class="event-date">${new Date(ev.date + 'T00:00').toLocaleDateString()}</div><span class="event-tag ${ev.class}">${ev.tag}</span></div><button class="event-del" onclick="removeEvent(${idx})">✕</button>`;
+        list.appendChild(li);
+      });
+    }
+
+    function removeEvent(idx) {
+      events.splice(idx, 1);
+      saveAll();
+      renderEvents();
+      showToast('Event removed.');
+    }
+
     function addEvent() {
       const text = document.getElementById('eventText').value.trim();
       const date = document.getElementById('eventDate').value;
       if (!text) { showToast('⚠️ Enter event name!'); return; }
       if (!date) { showToast('⚠️ Select a date!'); return; }
-      const li = document.createElement('li'); li.className = 'event-item';
-      li.innerHTML = `<div><div class="event-name">${escHtml(text)}</div><div class="event-date">${new Date(date + 'T00:00').toLocaleDateString()}</div><span class="event-tag tag-event">Event</span></div><button class="event-del" onclick="this.closest('li').remove()">✕</button>`;
-      document.getElementById('eventsList').appendChild(li);
+
+      events.push({ text, date, tag: "Event", class: "tag-event" });
       document.getElementById('eventText').value = '';
       document.getElementById('eventDate').value = '';
+      saveAll();
+      renderEvents();
       showToast('✅ Event added!');
     }
 
+    // INITIAL RENDER
+    renderIdeas();
+    renderCourses();
+    renderSessions();
+    renderEvents();
     updateDisplay();
   </script>
 </body>
