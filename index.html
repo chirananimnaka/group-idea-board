@@ -886,8 +886,53 @@
         <div class="card">
           <h2>🧮 Add Course</h2>
           <div class="input-row">
-            <input type="text" id="courseName" placeholder="Course Name" maxlength="50"
-              style="flex:1;min-width:130px" />
+            <select id="courseName" style="flex:1;min-width:130px">
+              <option value="" disabled selected>Course Name</option>
+              <!-- Computer Science Courses -->
+              <optgroup label="Computer Science">
+                <option value="Introduction to Programming">Introduction to Programming</option>
+                <option value="Data Structures">Data Structures</option>
+                <option value="Algorithms">Algorithms</option>
+                <option value="Computer Organization">Computer Organization</option>
+                <option value="Operating Systems">Operating Systems</option>
+                <option value="Database Systems">Database Systems</option>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="Computer Networks">Computer Networks</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Mobile App Development">Mobile App Development</option>
+                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Computer Graphics">Computer Graphics</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="Cloud Computing">Cloud Computing</option>
+                <option value="Big Data Analytics">Big Data Analytics</option>
+                <option value="Computer Vision">Computer Vision</option>
+                <option value="Natural Language Processing">Natural Language Processing</option>
+                <option value="Distributed Systems">Distributed Systems</option>
+                <option value="Compiler Design">Compiler Design</option>
+              </optgroup>
+              <!-- Information Systems Courses -->
+              <optgroup label="Information Systems">
+                <option value="Information Systems Fundamentals">Information Systems Fundamentals</option>
+                <option value="Systems Analysis and Design">Systems Analysis and Design</option>
+                <option value="Database Management">Database Management</option>
+                <option value="Enterprise Systems">Enterprise Systems</option>
+                <option value="IT Project Management">IT Project Management</option>
+                <option value="Business Intelligence">Business Intelligence</option>
+                <option value="Data Warehousing">Data Warehousing</option>
+                <option value="Information Security">Information Security</option>
+                <option value="E-Commerce">E-Commerce</option>
+                <option value="IT Governance">IT Governance</option>
+                <option value="Network Administration">Network Administration</option>
+                <option value="System Administration">System Administration</option>
+                <option value="IT Infrastructure">IT Infrastructure</option>
+                <option value="Digital Transformation">Digital Transformation</option>
+                <option value="Information Ethics">Information Ethics</option>
+                <option value="Knowledge Management">Knowledge Management</option>
+                <option value="Decision Support Systems">Decision Support Systems</option>
+                <option value="IT Strategy">IT Strategy</option>
+              </optgroup>
+            </select>
             <select id="courseGrade">
               <option value="" disabled selected>Grade</option>
               <option value="4.0">A (4.0)</option>
