@@ -174,17 +174,42 @@
     }
 
     .dark-toggle {
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-      padding: 8px 12px; border-radius: 20px;
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s; font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s;
+      font-size: 1.2rem;
     }
-    .dark-toggle:hover { background: rgba(255,255,255,0.18); }
-    .toggle-icon { transition: opacity 0.3s, transform 0.3s; user-select: none; }
-    .sun-icon { opacity: 1; }
-    .moon-icon { opacity: 0.5; }
-    body.dark-mode .sun-icon { opacity: 0; }
-    body.dark-mode .moon-icon { opacity: 1; }
+
+    .dark-toggle:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .toggle-icon {
+      transition: opacity 0.3s, transform 0.3s;
+      user-select: none;
+    }
+
+    .sun-icon {
+      opacity: 1;
+    }
+
+    .moon-icon {
+      opacity: 0.5;
+    }
+
+    body.dark-mode .sun-icon {
+      opacity: 0;
+    }
+
+    body.dark-mode .moon-icon {
+      opacity: 1;
+    }
 
     main {
       flex: 1;
@@ -735,11 +760,15 @@
       .nav-bar {
         padding: 0 16px;
         flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        height: auto;
+        padding: 10px;
       }
 
       .nav-tab {
-        padding: 12px 14px;
-        font-size: 0.82rem;
+        padding: 10px 14px;
+        font-size: 0.8rem;
       }
 
       .timer-display {
@@ -748,6 +777,58 @@
 
       header {
         padding: 0 20px;
+        height: auto;
+        min-height: 64px;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+      }
+
+      .header-right {
+        margin-top: 4px;
+        opacity: 0.6;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .input-row {
+        flex-direction: column;
+      }
+
+      .input-row input,
+      .input-row select,
+      .input-row button {
+        width: 100% !important;
+      }
+
+      .gpa-value {
+        font-size: 2.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 1rem;
+      }
+
+      .logo-img {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+      }
+
+      .nav-tabs {
+        width: 100%;
+        justify-content: space-around;
+      }
+
+      .nav-tab {
+        padding: 8px 10px;
+        flex: 1;
+        text-align: center;
       }
     }
   </style>
@@ -924,7 +1005,11 @@
 
     // IDEA PAD
     const ideas = JSON.parse(localStorage.getItem('ideas') || '[]');
+    let isAddingIdea = false;
+
     function addIdea() {
+      if (isAddingIdea) return; // Prevent rapid-fire clicks
+
       let text = document.getElementById('ideaInput').value.trim();
       if (!text) { showToast('⚠️ Enter an idea!'); return; }
 
@@ -935,10 +1020,21 @@
         return;
       }
 
+      isAddingIdea = true; // Set lock
+      const addBtn = document.querySelector('#ideas-tab .btn');
+      addBtn.disabled = true;
+
       ideas.push({ text, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
       document.getElementById('ideaInput').value = '';
       saveAll();
-      renderIdeas(); showToast('✅ Idea added!');
+      renderIdeas();
+      showToast('✅ Idea added!');
+
+      // Cooldown to prevent jittery double-clicks
+      setTimeout(() => {
+        isAddingIdea = false;
+        addBtn.disabled = false;
+      }, 500);
     }
     document.getElementById('ideaInput').addEventListener('keydown', e => { if (e.key === 'Enter') addIdea(); });
     function removeIdea(idx) { ideas.splice(idx, 1); saveAll(); renderIdeas(); showToast('Idea removed.'); }
