@@ -867,7 +867,9 @@
         <div class="card">
           <h2>💡 Record an Idea</h2>
           <div class="input-row">
-            <input type="text" id="ideaInput" placeholder="Enter your idea or note here…" maxlength="200"/>
+            <input type="text" id="memberName" placeholder="Your Name" maxlength="50" style="width: 150px;" />
+            <input type="text" id="ideaInput" placeholder="Enter your idea or note here…" maxlength="200"
+              style="flex: 2;" />
             <button class="btn" onclick="addIdea()">+ Add Idea</button>
           </div>
         </div>
@@ -1011,9 +1013,31 @@
       if (isAddingIdea) return; // Prevent rapid-fire clicks
 
       let text = document.getElementById('ideaInput').value.trim();
+      let member = document.getElementById('memberName').value.trim();
+
       if (!text) { showToast('⚠️ Enter an idea!'); return; }
-      ideas.push({ text, time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) });
+      if (!member) { showToast('⚠️ Enter your name!'); return; }
+
+      // Treatment: same idea if content matches (case-insensitive & trimmed)
+      const isDuplicate = ideas.some(i => i.text.toLowerCase().trim() === text.toLowerCase());
+      if (isDuplicate) {
+        showToast('⚠️ Idea already exists!');
+        return;
+      }
+
+      isAddingIdea = true; // Set lock
+      const addBtn = document.querySelector('#ideas-tab .btn');
+      addBtn.disabled = true;
+
+      ideas.push({
+        text,
+        member,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      });
+
       document.getElementById('ideaInput').value = '';
+      // We keep the member name to make it easier to add multiple ideas
+
       saveAll();
       renderIdeas();
       showToast('✅ Idea added!');
@@ -1032,7 +1056,13 @@
       list.innerHTML = '';
       ideas.forEach((idea, idx) => {
         const li = document.createElement('li'); li.className = 'idea-item';
-        li.innerHTML = `<div class="idea-number">${idx + 1}</div><div class="idea-content"><div class="idea-text">${escHtml(idea.text)}</div><div class="idea-meta">${idea.time}</div></div><button class="delete-btn" onclick="removeIdea(${idx})">✕</button>`;
+        li.innerHTML = `
+          <div class="idea-number">${idx + 1}</div>
+          <div class="idea-content">
+            <div class="idea-text">${escHtml(idea.text)}</div>
+            <div class="idea-meta">Added by <strong>${escHtml(idea.member || 'Anonymous')}</strong> at ${idea.time}</div>
+          </div>
+          <button class="delete-btn" onclick="removeIdea(${idx})">✕</button>`;
         list.appendChild(li);
       });
     }
