@@ -333,7 +333,7 @@
         <div class="card">
           <h2>💡 Record an Idea</h2>
           <div class="input-row">
-            <input type="text" id="ideaInput" placeholder="Enter your idea or note here…" maxlength="200"/>
+            <input type="text" id="ideaInput" placeholder="Enter your idea or note here…" maxlength="20"/>
             <button class="btn" onclick="addIdea()">+ Add Idea</button>
           </div>
         </div>
@@ -480,6 +480,7 @@
     function addIdea() {
       const text = document.getElementById('ideaInput').value.trim();
       if (!text) { showToast('⚠️ Enter an idea!'); return; }
+      if (text.length > 20) { showToast('⚠️ Idea must be ≤ 20 chars'); return; }
       ideas.push({ text, time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) });
       document.getElementById('ideaInput').value = '';
       renderIdeas(); showToast('✅ Idea added!');
